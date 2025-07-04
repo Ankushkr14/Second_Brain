@@ -22,6 +22,7 @@ const tagSchema = new mongoose.Schema({
 })
 
 const permissionType = ['read','edit','none'];
+
 const linkSchema = new mongoose.Schema({
     contentId: {type:mongoose.Types.ObjectId, ref: "Content", required: true},
     userId: {type: mongoose.Types.ObjectId, ref: "User", required: true},

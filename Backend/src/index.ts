@@ -2,9 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import indexRoute from './routes/indexRoutes';
 import mongoose from 'mongoose';
+import cors from 'cors';
+
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const port = process.env.PORT;
 const DB  = process.env.DB;

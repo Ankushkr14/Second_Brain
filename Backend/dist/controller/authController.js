@@ -49,7 +49,8 @@ const signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (error instanceof zod_1.ZodError) {
             return res.status(httpStatus_1.HttpStatus.INVALID_INPUT).json({
                 success: false,
-                message: "Input Invalid"
+                message: "Input Invalid",
+                error: error.errors
             });
         }
         res.status(httpStatus_1.HttpStatus.SERVER_ERROR).json({
@@ -76,10 +77,13 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email: user.email.toLowerCase(),
             password: hashPassword
         });
+        const token = jsonwebtoken_1.default.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY, {
+            expiresIn: "7d"
+        });
         res.status(httpStatus_1.HttpStatus.SUCCESS).json({
             success: true,
             message: "User registered successfully.",
-            user_id: newUser._id
+            token: token
         });
     }
     catch (error) {

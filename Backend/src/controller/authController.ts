@@ -42,7 +42,8 @@ export const signin = async (req: Request, res: Response): Promise<any>=> {
         if(error instanceof ZodError){
             return res.status(HttpStatus.INVALID_INPUT).json({
                 success: false,
-                message: "Input Invalid"
+                message: "Input Invalid",
+                error: error.errors
             })
         }
 
@@ -72,11 +73,13 @@ export const signup = async (req:Request, res:Response): Promise<any> => {
             email: user.email.toLowerCase(),
             password: hashPassword
         })
-
+        const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET_KEY as string, {
+            expiresIn: "7d"
+        })
         res.status(HttpStatus.SUCCESS).json({
             success: true,
             message: "User registered successfully.",
-            user_id: newUser._id
+            token: token
         });
     } catch (error) {
         if (error instanceof ZodError) {
