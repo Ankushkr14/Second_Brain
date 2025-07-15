@@ -6,7 +6,7 @@ interface ButtonProps {
     startIcon?: ReactElement,
     endIcon?: ReactElement,
     size: "lg" | "md" | "sm",
-    onClick?: () => void,
+    onClick?: () => void | null,
     fullwidth?: boolean,
     loading?: boolean,
     className?: string,
