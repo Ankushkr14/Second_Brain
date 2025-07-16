@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom"
+
 export const SecondHeroSection = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="w-full py-24  flex flex-col items-center justify-center">
             <div className="max-w-2xl mx-auto text-center px-4">
@@ -9,7 +13,10 @@ export const SecondHeroSection = () => {
                 <p className="text-md md:text-lg mb-8 text-gray-300">
                     Organize your thoughts, links and resources in with a second brain that helps you stay productive and creative.
                 </p>
-                <button className="bg-purple-800 text-xl text-white px-7 py-3 rounded-lg font-semibold hover:bg-purple-900 transition-colors w-full md:w-auto">
+                <button 
+                    className="bg-purple-800 text-xl text-white px-7 py-3 rounded-lg font-semibold hover:bg-purple-900 transition-colors w-full md:w-auto"
+                    onClick={() => navigate('/dashboard')}
+                >
                     Get Started
                 </button>
 

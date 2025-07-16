@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export const HeroSection = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="flex items-center justify-center h-full text-white">
             <div className="text-center max-w-4xl px-4">
@@ -12,10 +16,10 @@ export const HeroSection = () => {
                 
                 {/* Two Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center">
+                    <button className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center" onClick={() => navigate('/dashboard')}>
                         Start Building Your Brain 🧠
                     </button>
-                    <button className="border border-purple-400 text-purple-300 px-8 py-4 rounded-lg font-semibold hover:bg-purple-400 hover:text-white transition-colors">
+                    <button className="border border-purple-400 text-purple-300 px-8 py-4 rounded-lg font-semibold hover:bg-purple-400 hover:text-white transition-colors" onClick={() => navigate('/404')}>
                         Explore a Live Demo
                     </button>
                 </div>

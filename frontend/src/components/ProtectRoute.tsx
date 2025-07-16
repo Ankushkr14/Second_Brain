@@ -20,7 +20,7 @@ export const useAuthRedirect = () => {
             }
         } else {
             if (protectedPages.some(route => currentPath.startsWith(route))) {
-                navigate('/', { replace: true });
+                navigate('/signin', { replace: true });
             }
         }
     }, [location.pathname, navigate]);
