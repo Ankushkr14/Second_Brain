@@ -27,7 +27,7 @@ export const ShareContentModel = ({open, onClose, contentId}: ShareContentModelP
             axios.post(`${BACKEND_URL}/user/content/${contentId}/share`, 
                 { permission: permission },
                 {
-                    headers: { Authorization: localStorage.getItem("token") }
+                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
                 }
             )
             .then((response) => {

@@ -78,7 +78,7 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
             tags
         }, {
             headers: {
-                Authorization: localStorage.getItem("token")
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
         .then(()=>{

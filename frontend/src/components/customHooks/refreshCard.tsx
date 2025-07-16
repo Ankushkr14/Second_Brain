@@ -25,7 +25,7 @@ export function useRefreshCard(){
 
         axios.get(`${BACKEND_URL}/user/content`, {
             headers:{
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
             }
         })
         .then((response)=>{
@@ -72,7 +72,7 @@ export function useRefreshCard(){
 
         axios.delete(`${BACKEND_URL}/user/content/${id}`,{
             headers:{
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
             }
         })
         .then(() => {
