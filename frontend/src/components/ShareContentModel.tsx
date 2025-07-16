@@ -3,6 +3,7 @@ import { BACKEND_URL } from "../config"
 import { useEffect, useState } from "react";
 import { Button } from "./UI/Buttton";
 import { CopyIcon } from "./icons/copyIcon";
+import { toast } from "react-toastify";
 
 interface ShareContentModelProps{
     open: boolean;
@@ -30,11 +31,13 @@ export const ShareContentModel = ({open, onClose, contentId}: ShareContentModelP
                 }
             )
             .then((response) => {
-                setShareableLink(response.data.shareableLink);
+                toast.success("Shareable link generated successfully!");
+                setTimeout(() => {
+                    setShareableLink(response.data.shareableLink);
+                }, 500);
             })
             .catch((error) => {
-                console.error("Error generating shareable link:", error);
-                
+                toast.error(error.response?.data?.message || "Failed to generate shareable link.");
             })
             .finally(() => {
                 setIsLoading(false);

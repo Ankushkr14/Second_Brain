@@ -27,7 +27,7 @@ export function Input({id, checked ,placeholder, value, ref, type, readOnly, onC
                 required = {required}
                 onKeyDown ={onKeyDown}
                 disabled = {disabled}
-                className="px-4 py-3 border rounded-xl m-1 w-full bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition-all duration-300 ease-in-out backdrop-blur-sm"
+                className="px-4 py-3 border rounded-xl m-1 w-full bg-white-300/50 border-gray-600/50 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition-all duration-300 ease-in-out backdrop-blur-sm"
             />
         </div>
     );

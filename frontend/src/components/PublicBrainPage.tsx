@@ -6,6 +6,7 @@ import Masonry from "react-masonry-css";
 import { Card } from "./UI/Card";
 import { PublicBrainIcon } from "./icons/publicBrainIcon";
 import { BrainIconForError, BrainIconWithText } from "./icons/brainIcon";
+import { toast } from "react-toastify";
 
 interface PublicBrainData{
     content: any[];
@@ -32,10 +33,8 @@ export const PublicBrainPage = ()=>{
 
     const loadPublicBrain = async ()=>{
         try{
-            console.log('Loading brain for userId:', userId);
             await new Promise(resolve => setTimeout(resolve, 1000));
             const response = await axios.get(`${BACKEND_URL}/brain/${userId}`);
-            console.log('API Response:', response.data);
             
             if(response.data.success){
                 const brainData = {
@@ -48,13 +47,15 @@ export const PublicBrainPage = ()=>{
                 setError(response.data.message || 'Brain not accessible');
             }
         }catch(error: any){
-            console.error('Error in loading public brain:', error);
             if(error.response?.status === 404){
                 setError('Brain not found');
+                toast.error('Brain not found');
             } else if(error.response?.status === 403){
                 setError('Brain content is private, please request access from the owner.');
+                toast.error('Brain is private');
             } else {
                 setError('Failed to load brain');
+                toast.error('Failed to load brain. Please try again.');
             }
         }finally{
             setLoading(false);

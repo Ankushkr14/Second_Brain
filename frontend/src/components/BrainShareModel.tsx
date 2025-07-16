@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 import { CloseIcon } from "./icons/closeIcon";
+import { toast } from "react-toastify";
 
 interface BrainShareModelProps {
     open: boolean;
@@ -33,11 +34,9 @@ export const BrainShareModel = ({ open, onClose }: BrainShareModelProps) => {
                 setIsPublic(response.data.settings.isPublic);
                 setShareableLink(response.data.settings.shareableLink);
             }
-            //else for error handling
-            
 
         } catch (error) {
-            console.error("Error in loading brain setting.");
+            toast.error("Failed to load brain settings. Please try again.");
         }
     }
 
@@ -56,10 +55,11 @@ export const BrainShareModel = ({ open, onClose }: BrainShareModelProps) => {
             if(response.data.success){
                 setIsPublic(response.data.isPublic);
                 setShareableLink(response.data.shareableLink || '');
+                toast.success(response.data.isPublic ? "Brain made public!" : "Brain made private!");
             }
             
         }catch(error){
-            console.error("Error in toggle brain.")
+            toast.error("Failed to update brain settings. Please try again.");
         }finally{
             setLoading(false);
         }
@@ -69,6 +69,7 @@ export const BrainShareModel = ({ open, onClose }: BrainShareModelProps) => {
         if(shareableLink){
             navigator.clipboard.writeText(shareableLink);
             setCopied(true);
+            toast.success("Link copied to clipboard!");
             setTimeout(()=> setCopied(false), 3000);
         }
     }

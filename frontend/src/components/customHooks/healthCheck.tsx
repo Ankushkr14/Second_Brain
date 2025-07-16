@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
+import { toast } from 'react-toastify';
 
 export const useHealthCheck = () => {
   const [isServerHealthy, setIsServerHealthy] = useState<boolean | null>(null);
@@ -11,8 +12,8 @@ export const useHealthCheck = () => {
       await axios.get(`${BACKEND_URL}/health`, { timeout: 5000 });
       setIsServerHealthy(true);
     } catch (error) {
-      console.error('Server Error', error);
       setIsServerHealthy(false);
+      toast.error('Server is down. Please try again later.');
     } finally {
       setIsChecking(false);
     }

@@ -11,6 +11,7 @@ import { ShareIconNew } from '../components/icons/ShareIcon_1'
 import { DeleteConfirmationModal } from '../components/DeleteConfirmationModel';
 import { BrainShareModel } from '../components/BrainShareModel';
 import { useLoading } from '../context/LoadingContext';
+import { toast } from 'react-toastify';
 
 
 function Dashboard() {
@@ -59,7 +60,7 @@ function Dashboard() {
       setDeleteModelOpen(false);
       setContentToDelete(null);
     } catch (error) {
-      console.error("Error deleting content:", error);
+      toast.error("Failed to delete content. Please try again.");
     } finally {
       setIsDeleting(false);
       hideLoading();

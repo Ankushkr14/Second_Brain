@@ -4,6 +4,7 @@ import { Input } from "./UI/Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { CloseIcon } from "./icons/closeIcon";
+import { toast } from "react-toastify";
 
 
 export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean, onClose:()=>void, onContentAdded:()=>void }){
@@ -64,6 +65,11 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
     }
 
     const handleSubmit = async () =>{
+
+        if(!title || !link){
+            toast.warning("Please fill all required fields.");
+            return;
+        }
         
         await axios.post(`${BACKEND_URL}/user/content`, {
             type, 
@@ -76,11 +82,15 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
             }
         })
         .then(()=>{
-            onClose();
-            onContentAdded();
+
+            toast.success("Content added successfully");
+            setTimeout(() => {
+                onClose();
+                onContentAdded();
+            }, 1000);
         })
         .catch((error)=>{
-            console.log("Error: ", error);
+            toast.error(error.response?.data?.message || "Failed to add content. Please try again.");
         })
     };
 
@@ -89,26 +99,31 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-85 transition-opacity flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full p-7 space-y-4">
+            <div className="bg-white rounded-lg shadow-xl transform transition-all sm:my-8 sm:max-w-md sm:w-full mx-4 p-6 space-y-6">
                 
                 {/* Modal Header */}
                 <div className="flex items-start justify-between">
                     <div>
-                        <h3 className="text-lg leading-6 font-bold text-gray-900">Add New Content</h3>
-                        <p className="mt-1 text-sm text-gray-500">
+                        <h3 className="text-xl leading-6 font-bold text-gray-900">Add New Content</h3>
+                        <p className="mt-2 text-sm text-gray-500">
                             Add a link to your second brain. We'll automatically detect the content type.
                         </p>
                     </div>
-                    <button onClick={onClose} className="text-black bg-gray-300 rounded-md hover:text-white hover:bg-gray-600">
+                    <button 
+                        onClick={onClose} 
+                        className="text-gray-400 hover:text-gray-600 transition-colors p-1"
+                    >
                         <CloseIcon/>
                     </button>
                 </div>
 
                 {/* Form Body */}
-                <div className="space-y-4">
+                <div className="space-y-5">
                     {/* Title Input */}
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+                            Title <span className="text-red-500">*</span>
+                        </label>
                         <Input
                             placeholder="Enter a title for this content"
                             value={title} 
@@ -120,7 +135,9 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
 
                     {/* Link Input */}
                     <div>
-                        <label htmlFor="link" className="block text-sm font-medium text-gray-700">Link</label>
+                        <label htmlFor="link" className="block text-sm font-medium text-gray-700 mb-2">
+                            Link <span className="text-red-500">*</span>
+                        </label>
                         <Input
                             placeholder="https://example.com"
                             value={link} 
@@ -132,23 +149,27 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
 
                     {/* Content Type Dropdown */}
                     <div>
-                        <label htmlFor="content-type" className="block text-sm font-medium text-gray-700">Content Type</label>
+                        <label htmlFor="content-type" className="block text-sm font-medium text-gray-700 mb-2">
+                            Content Type
+                        </label>
                         <select
                             id="content-type"
-                            className="mt-1 ml-2 block w-80 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border"
+                            className="block w-full pl-3 pr-10 py-3 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg shadow-sm"
                             value={type}
                             onChange={(e) => setType(e.target.value)}
                         >
-                            <option value="url">URL</option>
-                            <option value="youtube">Youtube</option>
-                            <option value="twitter">Twitter</option>
+                            <option value="url">🔗 URL</option>
+                            <option value="youtube">🎥 YouTube</option>
+                            <option value="twitter">🐦 Twitter</option>
                         </select>
                     </div>
 
                     {/* Tags Section */}
                     <div>
-                        <label htmlFor="tags" className="block text-sm font-medium text-gray-700">Tags</label>
-                        <div className="flex gap-2 mt-1">
+                        <label htmlFor="tags" className="block text-sm font-medium text-gray-700 mb-2">
+                            Tags
+                        </label>
+                        <div className="space-y-3">
                             <Input
                                 placeholder="Add a tag and press Enter"
                                 value={tagInput}
@@ -160,26 +181,30 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
                                     }
                                 }}
                             />
-                        </div>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                            {tags?.map(tag => (
-                                <span key={tag} className="bg-blue-100 text-blue-600 text-sm font-medium px-3 py-1 rounded-md flex items-center">
-                                    {tag}
-                                    {tag !== getDefaultTag(type) && (
-                                        <button type="button" className="ml-1.5 size-sm text-blue-800 hover:text-black" onClick={() => handleRemoveTag(tag)}>
-                                            &times;
-                                        </button>
-                                    )}
-                                </span>
-                            ))}
+                            <div className="flex flex-wrap gap-2">
+                                {tags?.map(tag => (
+                                    <span key={tag} className="bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1.5 rounded-lg flex items-center gap-2 border border-blue-200">
+                                        {tag}
+                                        {tag !== getDefaultTag(type) && (
+                                            <button 
+                                                type="button" 
+                                                className="text-blue-600 hover:text-red-600 transition-colors font-bold text-sm"
+                                                onClick={() => handleRemoveTag(tag)}
+                                            >
+                                                ×
+                                            </button>
+                                        )}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Modal Footer */}
-                <div className="flex justify-end gap-3 pt-4">
+                <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
                     <Button variant="secondary" size="md" text="Cancel" onClick={onClose}/>
-                    <Button variant="primary" size="md" text="Add Content" onClick={handleSubmit}/>
+                    <Button variant="primary" size="md" text="Add Content" onClick={() => { handleSubmit(); }}/>
                 </div>
             </div>
         </div>

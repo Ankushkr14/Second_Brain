@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../components/icons/brainIcon";
 import { useLoading } from "../context/LoadingContext";
+import { toast } from "react-toastify";
 
 
 
@@ -32,19 +33,25 @@ export function Signup(){
         const confirmPassword = confirmPasswordRef.current?.value;
 
         if (!firstname || !lastname || !email || !password || !confirmPassword) {
-            setError("Please fill in all fields");
+            toast.warning("Please fill in all fields");
+            hideLoading();
+            return;
+        }
+        
+        if(!email.includes("@") || !email.includes(".")) {
+            toast.warning("Please enter a valid email address");
             hideLoading();
             return;
         }
 
         if (password !== confirmPassword) {
-            setError("Passwords do not match");
+            toast.warning("Passwords do not match");
             hideLoading();
             return;
         }
 
         if (password.length < 8) {
-            setError("Password must be at least 8 characters long");
+            toast.warning("Password must be at least 8 characters long");
             hideLoading();
             return;
         }
@@ -57,13 +64,21 @@ export function Signup(){
                 password,
                 confirmPassword
             });
-            
+
+            if(response.data.success === false) {
+                toast.error(response.data.message || "Sign up failed. Please try again.");
+                return;
+            }
+
             const token = response.data.token;
             localStorage.setItem("token", `Bearer ${token}`);
-            navigate("/dashboard");
+            toast.success("Sign up successful!");
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 1500);
         } catch (error: any) {
             console.error("signup error", error);
-            setError(error.response?.data?.message || "Sign up failed. Please try again.");
+            toast.error(error.response?.data?.message || "Sign up failed. Please try again.");
         } finally {
             hideLoading();
         }
