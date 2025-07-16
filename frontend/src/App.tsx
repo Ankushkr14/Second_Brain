@@ -7,9 +7,21 @@ import { LandingPage } from "./pages/LandingPage";
 import { PageNotFound } from "./pages/PageNotFound";
 import { useAuthRedirect } from "./components/ProtectRoute";
 import { LoadingProvider } from "./context/LoadingContext";
+import { useHealthCheck } from "./components/customHooks/healthCheck";
+import { Loading } from "./components/Loading";
+import { ServerError } from "./pages/ServerError";
 
 function AppRoutes() {
+  const { isServerHealthy, isChecking, recheckHealth } = useHealthCheck();
   useAuthRedirect(); 
+
+  if (isChecking) {
+    return <Loading message="Checking server status..." />;
+  }
+
+  if (isServerHealthy === false) {
+    return <ServerError onRetry={recheckHealth} isRetrying={isChecking} />;
+  }
 
   return (
     <Routes>
