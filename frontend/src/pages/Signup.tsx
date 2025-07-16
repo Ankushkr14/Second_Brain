@@ -80,7 +80,7 @@ export function Signup(){
             <div className="relative z-10 w-full max-w-md mx-4">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="flex justify-center items-center gap-3 mb-4">
+                    <div className=" text-white flex justify-center items-center gap-3 mb-4">
                         <BrainIcon />
                         <h1 className="text-3xl font-bold text-white">Second Brain</h1>
                     </div>

@@ -53,7 +53,7 @@ export function Signin(){
                 {/* Header */}
                 <div className="text-center mb-8">
                     <div className="flex justify-center items-center gap-3 mb-4">
-                        <div className="p-2 bg-white/10 rounded-full backdrop-blur-sm">
+                        <div className="p-2 text-white ">
                             <BrainIcon />
                         </div>
                         <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
