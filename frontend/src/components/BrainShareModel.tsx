@@ -26,7 +26,7 @@ export const BrainShareModel = ({ open, onClose }: BrainShareModelProps) => {
         try {
             const response = await axios.get(`${BACKEND_URL}/user/brain/settings`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: localStorage.getItem("token"),
                 }
             })
 
@@ -48,7 +48,7 @@ export const BrainShareModel = ({ open, onClose }: BrainShareModelProps) => {
                 isPublic: !isPublic
             }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: localStorage.getItem("token"),
                 }
             })
 
