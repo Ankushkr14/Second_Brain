@@ -10,6 +10,7 @@ import { SearchComponent, SearchFilters } from '../components/SearchComponent'
 import { ShareIconNew } from '../components/icons/ShareIcon_1'
 import { DeleteConfirmationModal } from '../components/DeleteConfirmationModel';
 import { BrainShareModel } from '../components/BrainShareModel';
+import { useLoading } from '../context/LoadingContext';
 
 
 function Dashboard() {
@@ -18,6 +19,7 @@ function Dashboard() {
   const [shareModelOpen, setShareModelOpen] = useState(false);
   const [contentIdShare, setContentIdShare] = useState<string | null>(null);
   const { cards, loading, deleteCard, fetchCards } = useRefreshCard();
+  const { showLoading, hideLoading } = useLoading();
   const [activeItem, setActiveItem] = useState("All Content");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFilters, setSearchFilters] = useState<SearchFilters>({
@@ -51,6 +53,7 @@ function Dashboard() {
   const handleConfirmDelete = async () => {
     if (!contentToDelete) return;
     setIsDeleting(true);
+    showLoading("Deleting content...");
     try {
       await deleteCard(contentToDelete.id);
       setDeleteModelOpen(false);
@@ -59,6 +62,7 @@ function Dashboard() {
       console.error("Error deleting content:", error);
     } finally {
       setIsDeleting(false);
+      hideLoading();
     }
   };
 

@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../components/icons/brainIcon";
+import { useLoading } from "../context/LoadingContext";
 
 
 
@@ -15,13 +16,13 @@ export function Signup(){
     const emailRef = useRef<HTMLInputElement>(null);    
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const { showLoading, hideLoading, isLoading } = useLoading();
     const navigate = useNavigate();
     
 
     async function signupHandler(){
-        setIsLoading(true);
+        showLoading("Creating your account...");
         setError("");
         
         const firstname = firstnameRef.current?.value;
@@ -30,22 +31,21 @@ export function Signup(){
         const password = passwordRef.current?.value;
         const confirmPassword = confirmPasswordRef.current?.value;
 
-        // Basic validation
         if (!firstname || !lastname || !email || !password || !confirmPassword) {
             setError("Please fill in all fields");
-            setIsLoading(false);
+            hideLoading();
             return;
         }
 
         if (password !== confirmPassword) {
             setError("Passwords do not match");
-            setIsLoading(false);
+            hideLoading();
             return;
         }
 
         if (password.length < 8) {
             setError("Password must be at least 8 characters long");
-            setIsLoading(false);
+            hideLoading();
             return;
         }
 
@@ -65,7 +65,7 @@ export function Signup(){
             console.error("signup error", error);
             setError(error.response?.data?.message || "Sign up failed. Please try again.");
         } finally {
-            setIsLoading(false);
+            hideLoading();
         }
     }
 

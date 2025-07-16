@@ -2,14 +2,17 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
 import { cardProps } from "../UI/Card";
+import { useLoading } from "../../context/LoadingContext";
 
 
 export function useRefreshCard(){
     const [cards, setCards] = useState<cardProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const { showLoading, hideLoading } = useLoading();
 
     const fetchCards = useCallback(()=>{
         setLoading(true);
+        showLoading("Loading your content...");
 
         axios.get(`${BACKEND_URL}/user/content`, {
             headers:{
@@ -26,10 +29,13 @@ export function useRefreshCard(){
         .catch((error)=>{
             console.error("Error fetching cards:", error);
             setLoading(false);
+        })
+        .finally(() => {
+            hideLoading();
         });
-    }, []);
+    }, [showLoading, hideLoading]);
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchCards();
     }, [fetchCards]);   
 

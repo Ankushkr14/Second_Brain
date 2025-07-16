@@ -6,6 +6,7 @@ import { PublicBrainPage } from "./components/PublicBrainPage";
 import { LandingPage } from "./pages/LandingPage";
 import { PageNotFound } from "./pages/PageNotFound";
 import { useAuthRedirect } from "./components/ProtectRoute";
+import { LoadingProvider } from "./context/LoadingContext";
 
 function AppRoutes() {
   useAuthRedirect(); 
@@ -24,8 +25,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <LoadingProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </LoadingProvider>
   );
 }

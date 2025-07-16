@@ -5,18 +5,19 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../components/icons/brainIcon";
+import { useLoading } from "../context/LoadingContext";
 
 
 export function Signin(){
 
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const { showLoading, hideLoading, isLoading } = useLoading();
     const navigate = useNavigate();
     
     async function signinHandler(){
-        setIsLoading(true);
+        showLoading("Signing you in...");
         setError("");
         
         const email = emailRef.current?.value;
@@ -35,7 +36,7 @@ export function Signin(){
             console.error("signin error", error);
             setError(error.response?.data?.message || "Sign in failed. Please try again.");
         } finally {
-            setIsLoading(false);
+            hideLoading();
         }
     }
 
