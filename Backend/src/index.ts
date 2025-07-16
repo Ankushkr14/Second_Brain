@@ -8,9 +8,19 @@ import { HttpStatus } from './config/httpStatus';
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors());
 
-const port = process.env.PORT;
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://second-brain-a998.vercel.app/'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+const port = process.env.PORT || 3000;
 const DB  = process.env.DB;
 
 
