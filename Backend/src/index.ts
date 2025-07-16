@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import indexRoute from './routes/indexRoutes';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import { HttpStatus } from './config/httpStatus';
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,19 @@ const DB  = process.env.DB;
 
 
 app.use('/',indexRoute);
+app.get('/health', (req, res)=>{
+    try{
+        res.status(HttpStatus.SUCCESS).json({
+            success: true,
+            message: "Server Health Check OK - Second Brain API",
+        })
+    }catch(error){
+        res.status(HttpStatus.INVALID_ACCESS).json({
+            success: false,
+            message: "Server Health Check Failed - Second Brain API",
+        })
+    }
+})
 
 mongoose.connect(`${DB}`)
     .then(()=>{
