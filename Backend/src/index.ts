@@ -13,12 +13,18 @@ app.use(cors({
     origin: [
         'http://localhost:5173',
         'http://localhost:3000',
-        'https://second-brain-eosin.vercel.app/'
+        'https://second-brain-eosin.vercel.app/',
+        'https://second-brain-eosin.vercel.app',
+        // Add your actual frontend domain here
+        /^https:\/\/.*\.vercel\.app$/
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Add preflight handling
+app.options('*', cors());
 
 const port = process.env.PORT || 3000;
 const DB  = process.env.DB;

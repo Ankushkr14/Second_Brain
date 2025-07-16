@@ -12,8 +12,17 @@ const httpStatus_1 = require("./config/httpStatus");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
-const port = process.env.PORT;
+app.use((0, cors_1.default)({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://second-brain-eosin.vercel.app/'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+const port = process.env.PORT || 3000;
 const DB = process.env.DB;
 app.use('/', indexRoutes_1.default);
 app.get('/health', (req, res) => {

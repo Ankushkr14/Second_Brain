@@ -9,11 +9,27 @@ export const useHealthCheck = () => {
 
   const checkHealth = async () => {
     try {
-      await axios.get(`${BACKEND_URL}/health`, { timeout: 5000 });
+      console.log('Checking health at:', `${BACKEND_URL}/health`);
+      const response = await axios.get(`${BACKEND_URL}/health`, { 
+        timeout: 10000,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Health check response:', response.data);
       setIsServerHealthy(true);
     } catch (error) {
+      console.error('Health check failed:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error details:', {
+          message: error.message,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data
+        });
+      }
       setIsServerHealthy(false);
-      toast.error('Server is down. Please try again later.');
+      toast.error(`Server connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsChecking(false);
     }
