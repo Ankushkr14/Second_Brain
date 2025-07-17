@@ -84,10 +84,8 @@ export function CreateContentModel({open, onClose, onContentAdded}:{open:boolean
         .then(()=>{
 
             toast.success("Content added successfully");
-            setTimeout(() => {
-                onClose();
-                onContentAdded();
-            }, 1000);
+            onClose();
+            onContentAdded();
         })
         .catch((error)=>{
             toast.error(error.response?.data?.message || "Failed to add content. Please try again.");
