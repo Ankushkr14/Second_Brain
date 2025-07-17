@@ -16,12 +16,14 @@ app.use((0, cors_1.default)({
     origin: [
         'http://localhost:5173',
         'http://localhost:3000',
-        'https://second-brain-eosin.vercel.app/'
+        'https://second-brain-xi-three.vercel.app'
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+// Add preflight handling
+app.options('*', (0, cors_1.default)());
 const port = process.env.PORT || 3000;
 const DB = process.env.DB;
 app.use('/', indexRoutes_1.default);
