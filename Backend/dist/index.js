@@ -12,12 +12,14 @@ const httpStatus_1 = require("./config/httpStatus");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+// Dynamic CORS configuration
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    process.env.FRONTEND_URL || 'https://second-brain-eosin.vercel.app'
+];
 app.use((0, cors_1.default)({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:3000',
-        'https://second-brain-xi-three.vercel.app'
-    ],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
