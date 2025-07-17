@@ -191,7 +191,7 @@ export const shareContent = async (req: Request, res: Response): Promise<any> =>
         res.status(HttpStatus.SUCCESS).json({
             success: true,
             message: "Shareable Link generated",
-            shareableLink: `${process.env.FRONTEND_URL}/user/share/${newShareLink.sharedToken}`
+            shareableLink: `https://second-brain-xi-three.vercel.app/user/share/${newShareLink.sharedToken}`
         });
     } catch (error) {
         res.status(HttpStatus.SERVER_ERROR).json({
@@ -335,7 +335,7 @@ export const toggleBrainPublic = async (req: Request, res: Response): Promise<an
             message: isPublic ? "Brain is now public" : "Brain is now private",
             isPublic: updateUser.isPublicBrain,
             brainName: updateUser.publicBrainName,
-            shareableLink: isPublic ? `${process.env.FRONTEND_URL}/brain/${id}` : null
+            shareableLink: isPublic ? `https://second-brain-eosin.vercel.app/brain/${id}` : null
         })
     }catch(error){
         res.status(HttpStatus.SERVER_ERROR).json({
@@ -407,7 +407,7 @@ export const getBrainSettings = async (req: Request, res: Response): Promise<any
             settings: {
                 isPublic: user.isPublicBrain || false,
                 brainName: user.publicBrainName || `${user.firstname}'s Brain`,
-                shareableLink: user.isPublicBrain ? `${process.env.FRONTEND_URL}/brain/${id}` : null
+                shareableLink: user.isPublicBrain ? `https://second-brain-eosin.vercel.app/brain/${id}` : null
             }
         });
 

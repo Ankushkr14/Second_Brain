@@ -191,7 +191,7 @@ const shareContent = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(httpStatus_1.HttpStatus.SUCCESS).json({
             success: true,
             message: "Shareable Link generated",
-            shareableLink: `${process.env.FRONTEND_URL}/user/share/${newShareLink.sharedToken}`
+            shareableLink: `https://second-brain-xi-three.vercel.app/user/share/${newShareLink.sharedToken}`
         });
     }
     catch (error) {
@@ -323,7 +323,7 @@ const toggleBrainPublic = (req, res) => __awaiter(void 0, void 0, void 0, functi
             message: isPublic ? "Brain is now public" : "Brain is now private",
             isPublic: updateUser.isPublicBrain,
             brainName: updateUser.publicBrainName,
-            shareableLink: isPublic ? `${process.env.FRONTEND_URL}/brain/${id}` : null
+            shareableLink: isPublic ? `https://second-brain-eosin.vercel.app/brain/${id}` : null
         });
     }
     catch (error) {
@@ -390,7 +390,7 @@ const getBrainSettings = (req, res) => __awaiter(void 0, void 0, void 0, functio
             settings: {
                 isPublic: user.isPublicBrain || false,
                 brainName: user.publicBrainName || `${user.firstname}'s Brain`,
-                shareableLink: user.isPublicBrain ? `${process.env.FRONTEND_URL}/brain/${id}` : null
+                shareableLink: user.isPublicBrain ? `https://second-brain-eosin.vercel.app/brain/${id}` : null
             }
         });
     }
