@@ -335,7 +335,7 @@ export const toggleBrainPublic = async (req: Request, res: Response): Promise<an
             message: isPublic ? "Brain is now public" : "Brain is now private",
             isPublic: updateUser.isPublicBrain,
             brainName: updateUser.publicBrainName,
-            shareableLink: isPublic ? `https://second-brain-eosin.vercel.app/brain/${id}` : null
+            shareableLink: isPublic ? `https://second-brain-xi-three.vercel.app/brain/${id}` : null
         })
     }catch(error){
         res.status(HttpStatus.SERVER_ERROR).json({
@@ -407,7 +407,7 @@ export const getBrainSettings = async (req: Request, res: Response): Promise<any
             settings: {
                 isPublic: user.isPublicBrain || false,
                 brainName: user.publicBrainName || `${user.firstname}'s Brain`,
-                shareableLink: user.isPublicBrain ? `https://second-brain-eosin.vercel.app/brain/${id}` : null
+                shareableLink: user.isPublicBrain ? `https://second-brain-xi-three.vercel.app/brain/${id}` : null
             }
         });
 
